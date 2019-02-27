@@ -8,6 +8,7 @@
 #include <fstream>
 #include <math.h>
 #include <locale.h>
+#include <windows.h>
 #include "entrophy.h"
 using namespace std;
 
@@ -76,7 +77,7 @@ float razmer(const char *namefile)
 }
 void initialization(versh *Q1)
 {
-    for(int i=0; i<255; i++)
+    for(int i=0; i<256; i++)
     {
         Q1[i].chance=0;
         Q1[i].accamulationchance=0;
@@ -89,40 +90,41 @@ void zapolnit(float &s,FILE *ptr,versh *Q1,unsigned char &temp,int &n)
 
     while(!feof(ptr))
     {
-        temp=getc(ptr);
+temp=getc(ptr);
         if(feof(ptr))
             break;
+
         Q1[int(temp)].chance++;
     }
 
-    for(int i=0; i<255; i++)
+    for(int i=0; i<256; i++)
         s=s+Q1[i].chance;
-    for(int i=0; i<255; i++)
+    for(int i=0; i<256; i++)
         Q1[i].chance=Q1[i].chance/s;
     s=0;
     //float temps;
     //for(int i=0;i<255;i++)temps=temps+Q1[i].chance;
     //printf("%f",temps);
     //system("pause");
-    for(int i=0; i<255; i++)
+    for(int i=0; i<256; i++)
     {
         Q1[i].symbol=(i);
     }
-    quicksortchance(Q1,0,254);
-    for(int j=0; j<255; j++)
+    quicksortchance(Q1,0,255);
+    for(int j=0; j<256; j++)
     {
         for(int i=0; i<=j; i++)
         {
             Q1[j].accamulationchance=Q1[j].accamulationchance+Q1[i].chance;
         }
     }
-    for(int i=0; i<255; i++)
+    for(int i=0; i<256; i++)
     {
         if(Q1[i].chance)
             n++;
     }
     n++;
-    for(int i=0; i<255; i++)
+    for(int i=0; i<256; i++)
         s=s+Q1[i].chance;
 
 
@@ -166,21 +168,15 @@ void sjatief(FILE *ptr1,FILE *ptr5,versh2 *Q2,long int &kol,unsigned char &temp,
 
     while(!feof(ptr1))
     {
-
-        temp=getc(ptr1);
-        if (feof(ptr1))
+         temp=getc(ptr1);
+if (feof(ptr1))
             break;
+
 
         strcat(buffer,Q2[temp].code);
 
         while(strlen(buffer)>7)
         {
-            i=strlen(buffer);
-            i=i-1;
-            if (i<7)
-                continue;
-            else
-            {
                 strncpy(buf,buffer,8);
                 buf[8]='\0';
 
@@ -202,34 +198,29 @@ void sjatief(FILE *ptr1,FILE *ptr5,versh2 *Q2,long int &kol,unsigned char &temp,
                 {
                     buffer[z-8]=buffer[z];
                 }
-            }
+                //buffer[strlen(buffer)-9]='\0';
         }
     }
     int ostatok=strlen(buffer);
     int inc=0;
-
-
-    for (int i=ostatok-1; i>=0; i--)
+    for (int i=0; i<ostatok; i++)
     {
-        buffer[7-i]=buffer[inc];
+        buf[i]=buffer[i];
         inc++;
     }
-    for (int i=0; i<8-ostatok; i++)
+    for (int i=ostatok; i<8; i++)
     {
-        buffer[i]='0';
+        buf[i]='0';
     }
-    //for (int i=0;i<8-ostatok;i++){buffer[i]=0;}
-    buffer[8]='\0';
-
-    dvo=0;
-    strncpy(buf,buffer,8);
     buf[8]='\0';
+    dvo=0;
     for(int rer=0; rer<8; rer++)
     {
         dvo=dvo+(buf[7-rer]-'0')*(pow(2,rer));
     }
     kol++;
     putc(dvo,ptr5);
+
 }
 
 void razjatie(FILE *ptr4,FILE *ptr6,long int &kol,versh *Q1,versh2 *Q2,int &n,unsigned char &temp1,char* buffir,char *vrem)
@@ -257,7 +248,7 @@ void razjatie(FILE *ptr4,FILE *ptr6,long int &kol,versh *Q1,versh2 *Q2,int &n,un
 
         int found=1;
         int kiiu=0;
-        while(strlen(buffir)>15)
+        while(strlen(buffir)>10)
             while(found)
             {
                 kiiu++;
@@ -292,6 +283,7 @@ void razjatie(FILE *ptr4,FILE *ptr6,long int &kol,versh *Q1,versh2 *Q2,int &n,un
                     break;
                 }
             }
+
     }
 
 }
@@ -395,6 +387,9 @@ int huffman(int n,versh *Q1,int c[][500])
 int main()
 {
     printf("");
+    setlocale(0,"");
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
     versh Q1[256];
     versh2 Q2[256];
     int n=0;
@@ -452,7 +447,7 @@ int main()
     char vrem[1000];
     razjatie(ptr4,ptr6,kol,Q1,Q2,n,temp1,buffir,vrem);
     fclose(ptr4);
-    putc(255,ptr6);
+    //putc(255,ptr6);
     fclose(ptr6);
 
     system("pause");

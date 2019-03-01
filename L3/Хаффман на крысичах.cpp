@@ -161,11 +161,11 @@ void indexmas(versh *Q1,versh2 *Q2,char *ttt,int C[][500],int n)
 }
 //////////
 
-void sjatief(FILE *ptr1,FILE *ptr5,versh2 *Q2,long int &kol,unsigned char &temp,int &dvo,int &i,char *buffer,char *buf)
+void sjatief(FILE *ptr1,FILE *ptr5,versh2 *Q2,long int &kol,unsigned char &temp,int &dvo,int &i,char *buffer,char *buf,FILE *ptr2)
 {
 
 
-
+int edinic=0,nulei=0;
     while(!feof(ptr1))
     {
          temp=getc(ptr1);
@@ -175,6 +175,7 @@ if (feof(ptr1))
 
         strcat(buffer,Q2[temp].code);
 
+
         while(strlen(buffer)>7)
         {
                 strncpy(buf,buffer,8);
@@ -183,11 +184,15 @@ if (feof(ptr1))
                 for(int rer=0; rer<8; rer++)
                 {
                     dvo=dvo+(buf[7-rer]-'0')*(pow(2,rer));
+                    if(buf[7-rer]-'0')nulei++;else edinic++;
+                    putc(buf[rer],ptr2);
                 }
 
                 if (dvo==10)
                 {
                     putc(dvo,ptr5);
+
+
                 }
                 else
 
@@ -217,10 +222,16 @@ if (feof(ptr1))
     for(int rer=0; rer<8; rer++)
     {
         dvo=dvo+(buf[7-rer]-'0')*(pow(2,rer));
+        if(buf[7-rer]-'0')nulei++;else edinic++;
     }
     kol++;
     putc(dvo,ptr5);
-
+    //cout<<edinic<<endl;
+    //cout<<nulei<<endl;
+    double p1=0,p0=0;
+    p1=(double)edinic/(edinic+nulei);
+    p0=(double)nulei/(edinic+nulei);
+    cout<<-p1*log2(p1)-p0*log2(p0);
 }
 
 void razjatie(FILE *ptr4,FILE *ptr6,long int &kol,versh *Q1,versh2 *Q2,int &n,unsigned char &temp1,char* buffir,char *vrem)
@@ -304,6 +315,11 @@ void   parametrs(versh *Q1,int &n)
     float izbyto4nost=0;
     izbyto4nost=srdlin-entrop;
     printf("izbytochnost:%f\n",izbyto4nost);
+    float craftovoepivo=0;
+    for(int i=0;i<n-1;i++){
+        craftovoepivo+=pow(n-1,-Q1[i].lengthcode);
+    }
+    cout<<fixed<<"craft:"<<craftovoepivo<<endl;
     float raz,dva,sjatie;
     raz=razmer("RUS.txt");
     dva=razmer("outhuf.txt");
@@ -422,6 +438,7 @@ int main()
     fclose(ptr);
     FILE *ptr1;
     FILE *ptr5;
+    FILE *ptr2;
     long int kol=0;
     char buffer[100];
     char buf[100];
@@ -429,9 +446,11 @@ int main()
     int i=0;
     ptr5=fopen("outhuf.txt","wb");
     ptr1=fopen("RUS.txt","rb");
-    sjatief(ptr1,ptr5,Q2,kol,temp,dvo,i,buffer,buf);
+    ptr2=fopen("BITS.txt","wb");
+    sjatief(ptr1,ptr5,Q2,kol,temp,dvo,i,buffer,buf,ptr2);
     fclose(ptr1);
     fclose(ptr5);
+    fclose(ptr2);
     cout << endl;
     for (int li=0; li<n-1; li++)
     {
@@ -459,10 +478,15 @@ int main()
         cout<<entrophy("RUS.txt",i)<<" ";
     }
     cout<<"\n\nHuffman coded the same text H\n\n";
+    //for(int i=1; i<4; i++)
+    //{
+    //    cout<<entrophy("outhuf.txt",i)<<" ";
+    //}
     for(int i=1; i<4; i++)
     {
-        cout<<entrophy("outhuf.txt",i)<<" ";
+        cout<<entrophy("BITS.txt",i)<<" ";
     }
+
 }
 
 

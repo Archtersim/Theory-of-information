@@ -184,7 +184,6 @@ if (feof(ptr1))
                 for(int rer=0; rer<8; rer++)
                 {
                     dvo=dvo+(buf[7-rer]-'0')*(pow(2,rer));
-                    if(buf[7-rer]-'0')nulei++;else edinic++;
                     putc(buf[rer],ptr2);
                 }
 
@@ -222,16 +221,13 @@ if (feof(ptr1))
     for(int rer=0; rer<8; rer++)
     {
         dvo=dvo+(buf[7-rer]-'0')*(pow(2,rer));
-        if(buf[7-rer]-'0')nulei++;else edinic++;
+        putc(buf[rer],ptr2);
     }
     kol++;
     putc(dvo,ptr5);
     //cout<<edinic<<endl;
     //cout<<nulei<<endl;
-    double p1=0,p0=0;
-    p1=(double)edinic/(edinic+nulei);
-    p0=(double)nulei/(edinic+nulei);
-    cout<<-p1*log2(p1)-p0*log2(p0);
+
 }
 
 void razjatie(FILE *ptr4,FILE *ptr6,long int &kol,versh *Q1,versh2 *Q2,int &n,unsigned char &temp1,char* buffir,char *vrem)
@@ -484,8 +480,9 @@ int main()
     //}
     for(int i=1; i<4; i++)
     {
-        cout<<entrophy("BITS.txt",i)<<" ";
+        cout<<"group of "<<i<<"symbols: "<<entrophy("BITS.txt",i)<<endl;
     }
+
 
 }
 

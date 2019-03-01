@@ -187,7 +187,7 @@ void codeandindexmas(int C[][500],int &n,versh *Q1,versh2 *Q2,char *ttt)
 
 }
 
-void sjatief(FILE *ptr1,FILE *ptr5,versh2 *Q2,long int &kol,unsigned char &temp,int &dvo,int &i,char *buffer,char *buf)
+void sjatief(FILE *ptr1,FILE *ptr5,versh2 *Q2,long int &kol,unsigned char &temp,int &dvo,int &i,char *buffer,char *buf,FILE *ptr2)
 {
 
 
@@ -214,6 +214,7 @@ if (feof(ptr1))
                 for(int rer=0; rer<8; rer++)
                 {
                     dvo=dvo+(buf[7-rer]-'0')*(pow(2,rer));
+                    putc(buf[rer],ptr2);
                 }
 
                 if (dvo==10)
@@ -249,6 +250,7 @@ if (feof(ptr1))
     for(int rer=0; rer<8; rer++)
     {
         dvo=dvo+(buf[7-rer]-'0')*(pow(2,rer));
+        putc(buf[rer],ptr2);
     }
     kol++;
     putc(dvo,ptr5);
@@ -344,6 +346,11 @@ void   parametrs(versh *Q1,int &n)
     float izbyto4nost=0;
     izbyto4nost=srdlin-entrop;
     printf("izbytochnost:%f\n",izbyto4nost);
+    double craftovoepivo=0;
+    for(int i=0;i<n-1;i++){
+        craftovoepivo+=pow(n-1,-Q1[i].lengthcode);
+    }
+    cout<<fixed<<"craft:"<<craftovoepivo<<endl;
     float raz,dva,sjatie;
     raz=razmer("RUS.txt");
     dva=razmer("outshannon.txt");
@@ -375,6 +382,7 @@ int main()
     fclose(ptr);
     FILE *ptr1;
     FILE *ptr5;
+    FILE *ptr2;
     //int lel=0;
      //for(int ki=0;ki<255;ki++)if(Q1[ki].chance) {lel++;cout<<lel<<")"<<Q1[ki].symbol<<" "<<Q1[ki].accamulationchance<<"   "<<Q1[ki].chance<<"\n";}
     long int kol=0;
@@ -384,7 +392,8 @@ int main()
     int i=0;
     ptr5=fopen("outshannon.txt","wb");
     ptr1=fopen("RUS.txt","rb");
-    sjatief(ptr1,ptr5,Q2,kol,temp,dvo,i,buffer,buf);
+    ptr2=fopen("BITS.txt","wb");
+    sjatief(ptr1,ptr5,Q2,kol,temp,dvo,i,buffer,buf,ptr2);
     fclose(ptr1);
     fclose(ptr5);
     cout << endl;
@@ -411,7 +420,11 @@ int main()
     cout<<"\n\nSHANNON coded the same text H\n\n";
     for(int i=1; i<4; i++)
     {
-        cout<<entrophy("outshannon.txt",i)<<" ";
+        cout<<"group of "<<i<<"symbols: "<<entrophy("BITS.txt",i)<<endl;
+    }
+    for(int i=1; i<3; i++)
+    {
+        cout<<"group of "<<i<<"symbols: "<<entrophy("outshannon.txt",i)<<endl;
     }
 }
 

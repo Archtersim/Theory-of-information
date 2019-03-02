@@ -63,6 +63,8 @@ void initnewalphabet(vector <unsigned char>alphabet,vector <string>& newalphabet
         {
             hz[newalphabet[i]]=0;
         }
+        alphabet.clear();
+        alphabet.shrink_to_fit();
     return;
 };
 
@@ -127,6 +129,13 @@ double getpracticalentrophy(string fname,vector<unsigned char> alphabet,int dim,
             res=res-log2(p)*p;
 
     }
+    dictionary.clear();
+dictionary.shrink_to_fit();
+st.clear();
+hz.clear();
+newalphabet.clear();
+newalphabet.shrink_to_fit();
+
     return res/(double)dim;
 }
 
@@ -150,7 +159,8 @@ double entrophy(string fname,int dim)
         }
     }
     F1.close();
-
+    entrophyP.clear();
+    entrophyP.shrink_to_fit();
     return getpracticalentrophy(fname,alphabet256,dim,0);
 }
 

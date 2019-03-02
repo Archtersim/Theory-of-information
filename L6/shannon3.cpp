@@ -130,7 +130,7 @@ void zapolnit(float &s,FILE *ptr,versh *Q1,unsigned char &temp,int &n)
 
     for(int i=0; i<n-1; i++)
     {
-        Q1[i].lengthcode=(log(Q1[i].chance)/log(0.5))+1;
+        Q1[i].lengthcode=-(log(Q1[i].chance)/log(3))+1;
     }
 }
 
@@ -146,19 +146,22 @@ void codeandindexmas(int C[][500],int &n,versh *Q1,versh2 *Q2,char *ttt)
 
 
     for (int i=0; i<n-1; i++)
-    {
+    {cout<<Q1[i].accamulationchance<< " ";
         for (int j=0; j<Q1[i].lengthcode; j++)
         {
-            Q1[i].accamulationchance=Q1[i].accamulationchance*2;
+            Q1[i].accamulationchance=Q1[i].accamulationchance*3;
+            cout<<Q1[i].accamulationchance<< " ";
 
             C[i][j]=Q1[i].accamulationchance;
-            if(C[i][j]==2)
+            while(C[i][j]==3)
                 C[i][j]=0;
-            if(Q1[i].accamulationchance>1)
+            while(Q1[i].accamulationchance>=1)
             {
                 Q1[i].accamulationchance=Q1[i].accamulationchance-1;
             }
+
         }
+        cout<<endl;
     }
 
 
@@ -166,9 +169,11 @@ void codeandindexmas(int C[][500],int &n,versh *Q1,versh2 *Q2,char *ttt)
     {
         for (int j=0; j<Q1[i].lengthcode; j++)
         {
-            if(C[i][j])
+            if(C[i][j]==2)
+                ttt[j]='2';
+            if(C[i][j]==1)
                 ttt[j]='1';
-            else
+            if(!C[i][j])
                 ttt[j]='0';
 
         }
@@ -213,7 +218,7 @@ if (feof(ptr1))
 
                 for(int rer=0; rer<8; rer++)
                 {
-                    dvo=dvo+(buf[7-rer]-'0')*(pow(2,rer));
+                    dvo=dvo+(buf[7-rer]-'0')*(pow(3,rer));
                     putc(buf[rer],ptr2);
                 }
 
@@ -270,9 +275,9 @@ void razjatie(FILE *ptr4,FILE *ptr6,long int &kol,versh *Q1,versh2 *Q2,int &n,un
         int u=0;
         for(int i=0; i<8; i++)
             res[i]='0';
-        for( ; x; x/=2)
+        for( ; x; x/=3)
         {
-            res[7-u]=(unsigned char)(x%2+'0');
+            res[7-u]=(unsigned char)(x%3+'0');
             u++;
         }
         res[8]='\0';
@@ -408,6 +413,8 @@ int main()
     FILE *ptr7;
     int lel=0;
      for(int ki=0;ki<255;ki++)if(Q1[ki].chance) {lel++;cout<<lel<<")"<<Q1[ki].symbol<<" "<<Q1[ki].accamulationchance<<"   "<<Q1[ki].chance<<"\n";}
+     for(int kek=0; kek<n-1; kek++)
+        cout<<char(Q2[Q1[kek].symbol].symbol)<<"    "<<Q2[Q1[kek].symbol].code<<"\n";
     long int kol=0;
     char buffer[100];
     char buf[100];
@@ -419,15 +426,15 @@ int main()
     sjatief(ptr1,ptr5,Q2,kol,temp,dvo,i,buffer,buf,ptr2);
     fclose(ptr1);
     fclose(ptr5);
-    string bitrus("bitrus.txt");
-    ptr7=fopen("RUS.txt","rb");
-    filetobit(ptr7,bitrus);
-    fclose(ptr7);
-    FILE *ptr8;
-    string bitrar("rusrar.txt");
-    ptr8=fopen("RUS.rar","rb");
-    filetobit(ptr8,bitrar);
-    fclose(ptr8);
+    //string bitrus("bitrus.txt");
+    //ptr7=fopen("RUS.txt","rb");
+    //filetobit(ptr7,bitrus);
+    //fclose(ptr7);
+    //FILE *ptr8;
+    //string bitrar("rusrar.txt");
+   // ptr8=fopen("RUS.rar","rb");
+   // filetobit(ptr8,bitrar);
+    //fclose(ptr8);
     cout << endl;
     parametrs(Q1,n);
     FILE *ptr4,*ptr6;
@@ -436,7 +443,7 @@ int main()
     unsigned char temp1;
     char buffir[100];
     char vrem[1000];
-    razjatie(ptr4,ptr6,kol,Q1,Q2,n,temp1,buffir,vrem);
+    //razjatie(ptr4,ptr6,kol,Q1,Q2,n,temp1,buffir,vrem);
     fclose(ptr4);
     //putc(255,ptr6);
     fclose(ptr6);
@@ -460,18 +467,18 @@ int main()
         cout<<entrophy("RUS.rar",i)<<" ";
     }
     cout<<"\n\ncoded text:\n";
-    for(int i=1; i<16; i++)
+    for(int i=1; i<12; i++)
     {
         cout<<"group of "<<i<<" bit in coded: "<<entrophy("BITS.txt",i)<<endl;
     }
 
     cout<<"RUS text:\n";
-for(int i=1; i<16; i++)
+for(int i=1; i<12; i++)
     {
         cout<<"group of "<<i<<" bit in RUS: "<<entrophy("bitrus.txt",i)<<endl;
     }
     cout<<"RAR-text:\n";
-for(int i=1; i<16; i++)
+for(int i=1; i<12; i++)
     {
         cout<<"group of "<<i<<" bit in rar: "<<entrophy("rusrar.txt",i)<<endl;
     }

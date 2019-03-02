@@ -395,6 +395,29 @@ int huffman(int n,versh *Q1,int c[][500])
     }
     return 0;
 }
+void filetobit(FILE *ptr1,string fname){
+unsigned char temp;
+ofstream F2;
+F2.open(fname,ios::binary);
+while(!feof(ptr1))
+    {
+         temp=getc(ptr1);
+if (feof(ptr1))
+            break;
+            int n=(int)temp;
+            string r("00000000");
+
+            int i=0;
+
+            while(n!=0) {r[i]=(n%2==0 ?'0':'1'); n/=2;i++;}
+
+            F2.write(r.c_str(),8);
+
+            }
+            F2.close();
+
+}
+
 //////////////////////////////
 int main()
 {
@@ -435,18 +458,28 @@ int main()
     FILE *ptr1;
     FILE *ptr5;
     FILE *ptr2;
+    FILE *ptr7;
+    string bitrus("bitrus.txt");
     long int kol=0;
     char buffer[100];
     char buf[100];
     int dvo;
     int i=0;
     ptr5=fopen("outhuf.txt","wb");
-    ptr1=fopen("RUS.txt","rb");
+     ptr1=fopen("RUS.txt","rb");
     ptr2=fopen("BITS.txt","wb");
     sjatief(ptr1,ptr5,Q2,kol,temp,dvo,i,buffer,buf,ptr2);
     fclose(ptr1);
     fclose(ptr5);
     fclose(ptr2);
+    ptr7=fopen("RUS.txt","rb");
+    filetobit(ptr7,bitrus);
+    fclose(ptr7);
+    FILE *ptr8;
+    string bitrar("rusrar.txt");
+    ptr8=fopen("RUS.rar","rb");
+    filetobit(ptr8,bitrar);
+    fclose(ptr8);
     cout << endl;
     for (int li=0; li<n-1; li++)
     {
@@ -468,22 +501,39 @@ int main()
     system("pause");
     //////////////////////////////////////
     cout<<"OVERALL TABLE:\n";
-    cout<<"RUS text H:\n\n";
+    cout<<"\nRUS text H bytes:\n";
     for(int i=1; i<4; i++)
     {
         cout<<entrophy("RUS.txt",i)<<" ";
     }
-    cout<<"\n\nHuffman coded the same text H\n\n";
-    //for(int i=1; i<4; i++)
-    //{
-    //    cout<<entrophy("outhuf.txt",i)<<" ";
-    //}
-    for(int i=1; i<4; i++)
+     cout<<"\n\ncoded text H bytes :\n";
+    for(int i=1; i<3; i++)
     {
-        cout<<"group of "<<i<<"symbols: "<<entrophy("BITS.txt",i)<<endl;
+        cout<<entrophy("outhuf.txt",i)<<" ";
+    }
+    cout<<"\n\nRAR-text H bytes :\n";
+    for(int i=1; i<3; i++)
+    {
+        cout<<entrophy("RUS.rar",i)<<" ";
+    }
+    cout<<"\n\ncoded text:\n";
+    for(int i=1; i<9; i++)
+    {
+        cout<<"group of "<<i<<" bit in coded: "<<entrophy("BITS.txt",i)<<endl;
     }
 
+    cout<<"RUS text:\n";
+for(int i=1; i<9; i++)
+    {
+        cout<<"group of "<<i<<" bit in RUS: "<<entrophy("bitrus.txt",i)<<endl;
+    }
+    cout<<"RAR-text:\n";
+for(int i=1; i<9; i++)
+    {
+        cout<<"group of "<<i<<" bit in rar: "<<entrophy("rusrar.txt",i)<<endl;
+    }
 
+system("pause");
 }
 
 

@@ -491,18 +491,18 @@ int main()
         cout<<entrophy("RUS.rar",i)<<" ";
     }
     cout<<"\n\ncoded text:\n";
-    for(int i=1; i<9; i++)
+    for(int i=1; i<20; i++)
     {
         cout<<"group of "<<i<<" bit in coded: "<<entrophy("BITS.txt",i)<<endl;
     }
 
     cout<<"RUS text:\n";
-for(int i=1; i<9; i++)
+for(int i=1; i<20; i++)
     {
         cout<<"group of "<<i<<" bit in RUS: "<<entrophy("bitrus.txt",i)<<endl;
     }
     cout<<"RAR-text:\n";
-for(int i=1; i<9; i++)
+for(int i=1; i<20; i++)
     {
         cout<<"group of "<<i<<" bit in rar: "<<entrophy("rusrar.txt",i)<<endl;
     }

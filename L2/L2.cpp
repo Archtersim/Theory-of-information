@@ -178,22 +178,23 @@ int main()
 
     for(int i=1; i<5; i++)
     {
-        entrophyP.push_back(getpracticalentrophy("RUS.txt",alphabet256,i,0));
+        //entrophyP.push_back(getpracticalentrophy("RUS.txt",alphabet256,i,0));
     }
-    for(int i=1; i<5; i++)
+    for(int i=5; i<6; i++)
     {
         entrophyP.push_back(getpracticalentrophy("RUS.txt",alphabetRUS,i,1));
     }
 
+    cout<<alphabet256.size()<<" "<<alphabetRUS.size()<<endl;
 
     cout<<"256alphabet:\n\nelement        Hpractic\n";
-    for(int i=0; i<4; i++)
+    for(int i=0; i<5; i++)
         cout<<i+1<<"        "<<
             "      "<<entrophyP[i]<<endl;
     cout<<"\n\n\n";
 
     cout<<"RUSalphabet:\n\nelement        Hpractic\n";
-    for(int i=4; i<8; i++)
+    for(int i=4; i<7; i++)
         cout<<i-3<<"        "<<
             "      "<<entrophyP[i]<<endl;
 

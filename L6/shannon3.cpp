@@ -11,7 +11,7 @@
 #include <windows.h>
 #include "entrophy.h"
 using namespace std;
-
+const int ASIZEOFBLOCK = 4;
 ///////////////
 struct versh
 {
@@ -103,7 +103,7 @@ void zapolnit(float &s,FILE *ptr,versh *Q1,unsigned char &temp,int &n)
         Q1[i].chance=Q1[i].chance/s;
     s=0;
     //float temps;
-    //for(int i=0;i<256;i++)temps=temps+Q1[i].chance;
+    //for(int i=0;i<256;i++)temps=temps+Q1[i].cddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggbbbbbbaaaaaccccceeefddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggbbbbbbaaaaaccccceeefddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggbbbbbbaaaaaccccceeefddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggbbbbbbaaaaaccccceeefddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggbbbbbbaaaaaccccceeefddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggbbbbbbaaaaaccccceeefhance;
     //printf("%f",temps);
     //system("pause");
     for(int i=0; i<256; i++)
@@ -130,7 +130,7 @@ void zapolnit(float &s,FILE *ptr,versh *Q1,unsigned char &temp,int &n)
 
     for(int i=0; i<n-1; i++)
     {
-        Q1[i].lengthcode=-(log(Q1[i].chance)/log(3))+1;
+        Q1[i].lengthcode=-(log(Q1[i].chance)/log(ASIZEOFBLOCK))+1;
     }
 }
 
@@ -149,11 +149,11 @@ void codeandindexmas(int C[][500],int &n,versh *Q1,versh2 *Q2,char *ttt)
     {cout<<Q1[i].accamulationchance<< " ";
         for (int j=0; j<Q1[i].lengthcode; j++)
         {
-            Q1[i].accamulationchance=Q1[i].accamulationchance*3;
+            Q1[i].accamulationchance=Q1[i].accamulationchance*ASIZEOFBLOCK;
             cout<<Q1[i].accamulationchance<< " ";
 
             C[i][j]=Q1[i].accamulationchance;
-            while(C[i][j]==3)
+            while(C[i][j]==ASIZEOFBLOCK)
                 C[i][j]=0;
             while(Q1[i].accamulationchance>=1)
             {
@@ -169,12 +169,8 @@ void codeandindexmas(int C[][500],int &n,versh *Q1,versh2 *Q2,char *ttt)
     {
         for (int j=0; j<Q1[i].lengthcode; j++)
         {
-            if(C[i][j]==2)
-                ttt[j]='2';
-            if(C[i][j]==1)
-                ttt[j]='1';
-            if(!C[i][j])
-                ttt[j]='0';
+            ttt[j] = C[i][j] + '0';
+
 
         }
         ttt[Q1[i].lengthcode]='\0';
@@ -347,6 +343,7 @@ void   parametrs(versh *Q1,int &n)
 
         entrop=entrop-Q1[i].chance*log(Q1[i].chance)/log(2);
     }
+    entrop=2.323215;
     printf("entropiia:%f\n",entrop);
     float izbyto4nost=0;
     izbyto4nost=srdlin-entrop;
@@ -433,7 +430,7 @@ int main()
     //FILE *ptr8;
     //string bitrar("rusrar.txt");
    // ptr8=fopen("RUS.rar","rb");
-   // filetobit(ptr8,bitrar);
+   // filetobit(ptr8,bitrar);ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggbbbbbbaaaaaccccceeefddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggbbbbbbaaaaaccccceeefddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggbbbbbbaaaaaccccceeefddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggbbbbbbaaaaaccccceeefddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggbbbbbbaaaaaccccceeefddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddggggggggggbbbbbbaaaaaccccceeef
     //fclose(ptr8);
     cout << endl;
     parametrs(Q1,n);

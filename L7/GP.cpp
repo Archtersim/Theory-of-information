@@ -60,6 +60,7 @@ void zapolnit(float &s,versh *Q1,unsigned char &temp,int &n,int lengthofblocks,d
             e/=2;
             i++;
         }
+
         blockbinview++;
     }
 
@@ -217,14 +218,13 @@ int main()
         FILE *ptr;
         float s=0;
 
-
         double p0=0.4,p1=0.6;
         zapolnit(s,Q1,temp,n,sizeofblock,p0,p1);
         int lel=0;
         for(int i=0; i<n; i++)
         {
             lel++;
-            // cout<<lel<<")"<<Q1[i].lengthcode<<" "<<Q1[i].symbol<<" "<<Q1[i].accamulationchance<<"   "<<Q1[i].chance<<"\n";
+             cout<<lel<<")"<<Q1[i].lengthcode<<" "<<Q1[i].symbol<<" "<<Q1[i].accamulationchance<<"   "<<Q1[i].chance<<"\n";
         }
 
         //system("pause");

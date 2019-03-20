@@ -168,11 +168,11 @@ double getpracticalentrophy(string fname,int sizeoffile,vector<char> alphabet,in
     }
 
     string st;
-        for(int i=0; i<dim; i++)
-            st.push_back(word[i]);
-        hz[st]++;
-        realsize++;
-        dictionary.push_back(st);
+    for(int i=0; i<dim; i++)
+        st.push_back(word[i]);
+    hz[st]++;
+    realsize++;
+    dictionary.push_back(st);
 
     F1.close();
     double res=0;
@@ -182,7 +182,8 @@ double getpracticalentrophy(string fname,int sizeoffile,vector<char> alphabet,in
 
         double p=(double)hz[newalphabet[j]]/(double)realsize;
 
-        if(p>0)res=res-log2(p)*p;
+        if(p>0)
+            res=res-log2(p)*p;
 
     }
     return res/(double)dim;
@@ -205,9 +206,10 @@ int main()
     }
 
     F1.close();
-    for(int i=1;i<6;i++){
-            entrophyT.push_back(gettheoreticalentrophy(chances,i));
-            entrophyP.push_back(getpracticalentrophy("F1.txt",sizeoffile,alphabet,i));
+    for(int i=1; i<6; i++)
+    {
+        entrophyT.push_back(gettheoreticalentrophy(chances,i));
+        entrophyP.push_back(getpracticalentrophy("F1.txt",sizeoffile,alphabet,i));
     }
 
 
@@ -222,16 +224,19 @@ int main()
         return 0;
     }
 
-    for(int i=1;i<6;i++){
-    entrophyT.push_back(gettheoreticalentrophy(chances,i));
-    entrophyP.push_back(getpracticalentrophy("F2.txt",sizeoffile,alphabet,i));
+    for(int i=1; i<6; i++)
+    {
+        entrophyT.push_back(gettheoreticalentrophy(chances,i));
+        entrophyP.push_back(getpracticalentrophy("F2.txt",sizeoffile,alphabet,i));
     }
 
     cout<<"ravnomernoe:\n\nelement  Hteor  Hpractic\n";
-    for(int i=0;i<5;i++)cout<<i+1<<"        "<<
-        entrophyT[i]<<"      "<<entrophyP[i]<<endl;
+    for(int i=0; i<5; i++)
+        cout<<i+1<<"        "<<
+            entrophyT[i]<<"      "<<entrophyP[i]<<endl;
 
     cout<<"\n\nbernulli:\n\nelement  Hteor   Hpractic\n";
-    for(int i=5;i<10;i++)cout<<i-4<<"        "<<
-        entrophyT[i]<<" "<<entrophyP[i]<<endl;
+    for(int i=5; i<10; i++)
+        cout<<i-4<<"        "<<
+            entrophyT[i]<<" "<<entrophyP[i]<<endl;
 }
